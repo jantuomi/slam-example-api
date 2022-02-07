@@ -23,8 +23,9 @@ app
     timestamp: { format: "YYYY-MM-DDTHH:mm:ssZ" },
   }))
   .get(ExampleApi.ListRequest.path, async (_req, res) => {
+    const examples: ExampleApi.Example[] = await client.query("SELECT * FROM examples").then(r => r.rows)
     const response: ExampleApi.ListResponse.Body = {
-      examples: [{ id: "123", title: "foobar", content: "10 20 + ." }],
+      examples,
     }
     res.send(response)
   })
