@@ -13,6 +13,12 @@ const client = new pg.Client({
 })
 
 client.connect()
+  .then(() => {
+    console.log("DB connection succeeded")
+  })
+  .catch((err) => {
+    console.error("DB connection failed", err)
+  })
 
 const app = new App()
 
@@ -25,10 +31,15 @@ app
   }))
   .use(cors())
   .get(ExampleApi.ListRequest.path, async (_req, res) => {
-    const examples: ExampleApi.Example[] = await client.query("SELECT * FROM examples").then(r => r.rows)
-    const response: ExampleApi.ListResponse.Body = {
-      examples,
+    try {
+      const examples: ExampleApi.Example[] = await client.query("SELECT * FROM examples").then(r => r.rows)
+      const response: ExampleApi.ListResponse.Body = {
+        examples,
+      }
+      res.send(response)
+    } catch (err) {
+      console.error(err)
+      res.sendStatus(500)
     }
-    res.send(response)
   })
   .listen(PORT)
