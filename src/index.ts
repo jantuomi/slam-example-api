@@ -1,5 +1,6 @@
 import { App } from "@tinyhttp/app"
 import { logger } from "@tinyhttp/logger"
+import { cors } from "@tinyhttp/cors"
 import pg from "pg"
 import { ExampleApi } from "slam-types"
 
@@ -22,6 +23,7 @@ app
   .use(logger({
     timestamp: { format: "YYYY-MM-DDTHH:mm:ssZ" },
   }))
+  .use(cors())
   .get(ExampleApi.ListRequest.path, async (_req, res) => {
     const examples: ExampleApi.Example[] = await client.query("SELECT * FROM examples").then(r => r.rows)
     const response: ExampleApi.ListResponse.Body = {
