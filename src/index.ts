@@ -1,3 +1,4 @@
+import "newrelic"
 import { App } from "@tinyhttp/app"
 import { logger } from "@tinyhttp/logger"
 import { cors } from "@tinyhttp/cors"

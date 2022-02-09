@@ -14,6 +14,7 @@ services:
     image: eu.gcr.io/slam-lang/slam-example-api
     environment:
       PORT: 3000
+      NEWRELIC_LICENSE_KEY: ${NEWRELIC_LICENSE_KEY}
       PGHOST: db
     ports:
       - 3000:3000
